@@ -3,47 +3,52 @@ package controllers
 import java.io.File
 import javax.inject._
 
-import akka.stream.scaladsl.Source
-import akka.stream.scaladsl.FileIO
-import akka.util.ByteString
-import entity.User
-import play.api.http.HttpEntity
+import entity.{User, VPNUser}
+import play.api.libs.json.Json
 import play.api.mvc._
-import services.VpnService
-import sys.process._
+
+import services.{UserService, VpnService}
 
 @Singleton
 class HomeController extends Controller {
 
   val vpnService = new VpnService
+  val userService = new UserService
 
-  def index = Action(BodyParsers.parse.json) {
+  def create = Action(BodyParsers.parse.json) {
     request =>
-      request.body.validate[User].fold(
-        errors => BadRequest("Please check your request"),
-        user => {
-          val test = vpnService.createAccess(user)
-          Ok.sendFile(new File(test))
-        }
-      )
+      request.session.get("connected").map { login =>
+        request.body.validate[VPNUser].fold(
+          errors => BadRequest("Please check your request"),
+          user => {
+            val test = vpnService.createAccess(user)
+            Ok.sendFile(new File(test))
+          }
+        )
+      }.getOrElse {
+        Unauthorized("Oops, you are not connected")
+      }
   }
 
-  def test = Action(BodyParsers.parse.json) {
+  def login = Action(BodyParsers.parse.json) {
     request =>
-      val generateCertif = "cd /etc/openvpn/easy-rsa/".!!
-      Ok("lol")
+      request.body.validate[User].map(user =>
+        userService.login(user) match {
+          case None => Unauthorized
+          case Some(login) => Ok("Welcome!").withSession("connected" -> login)
+        }).getOrElse(BadRequest)
   }
 
-  def options(path: String) = Action {
-    Ok("").withHeaders(
-      "Allow" -> "*",
-      "Access-Control-Allow-Methods" -> "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers" -> "Accept, Origin, Content-type, X-Json, X-Prototype-Version, X-Requested-With",
-      "Access-Control-Allow-Credentials" -> "true",
-      "Access-Control-Max-Age" -> (60 * 60 * 24).toString
-    )
+  def logout = Action {
+      Ok("Bye").withNewSession
   }
 
+  def user = Action {
+    request =>
+      request.session.get("connected").map { login =>
+        Ok(Json.toJson(userService.get(login).get))
+      }.getOrElse(Unauthorized)
+  }
 
 }
 

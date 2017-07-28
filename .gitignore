@@ -1,0 +1,12 @@
+.idea
+labo.ovpn
+logs
+!ressource/script.sh
+script.sh.zip
+target
+test
+typesafe-activator-1.3.12.zip
+gentmp/
+ressource/
+
+

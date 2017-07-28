@@ -1,15 +1,24 @@
-### vCenter-Scala ##
+### VPN Service ##
 
-## Play 2 - Scala 2.11 ##
+## v2 in progress ... ##
 
-Dépendances :
-* Ouvrir build.sbt
+An very simple interface to generate open-vpn client certificate.
 
-Script :
-* A coté de "make project", faire edit config
-* Créer un nouveau script "SBT"
-* Tasks : run
-* Cliquer sur Débug
+## Changelog ##
+
+* Add static auth (test/test) with cookie system.
+* Update scala
+
+## Backlog ##
+
+* Add frontend on 2cd repo
+* Add filter
+* Add DB for user auth
+* Add OpenAPI documentation
+* Unit Test ?
+
+
+
 
 
 

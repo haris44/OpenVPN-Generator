@@ -1,14 +1,13 @@
 package services
 
 import java.io.{File, PrintWriter}
-import java.nio.file.{FileAlreadyExistsException, Path, Paths, Files}
+import java.nio.file.{FileAlreadyExistsException, Files, Paths}
 import javax.inject.Singleton
 
-import entity.User
-import play.api.libs.json.Json
+import entity.{VPNUser, VPNUser$}
 
 import scala.io.Source
-import sys.process._
+import scala.sys.process._
 
 /**
   * Created by Alex on 28/10/2016.
@@ -17,10 +16,10 @@ import sys.process._
 @Singleton
 class VpnService {
 
-  def createAccess(user: User) = {
+  def createAccess(user: VPNUser) = {
 
     // generate certif
-    val generateCertif = ("./script.sh " + user.getUsername).!!
+    val generateCertif = ("ressource/script.sh " + user.getUsername).!!
 
     // create the tmp dir of this username
     val dir = new File("gentmp/" + user.getUsername)

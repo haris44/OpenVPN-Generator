@@ -1,20 +1,16 @@
 package entity
 
-import play.api.libs.json.{Json, Reads, Writes}
+import play.api.libs.json.{Reads, Json, Writes}
+
 /**
-  * Created by Alex on 28/10/2016.
+  * Created by Alex on 27/07/2017.
   */
 
-case class User(nom: String, prenom: String, email: String){
-  def getUsername(): String ={
-    prenom.charAt(0) + nom
-  }
-}
+case class User(login : String, password : String, mail : Option[String])
 
 object User {
 
   implicit val userWrites : Writes[User] = Json.writes[User]
-  implicit val userReads : Reads[User] = Json.reads[User]
+  implicit val userReads : Reads[User]   = Json.reads[User]
 
 }
-

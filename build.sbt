@@ -1,26 +1,23 @@
-name := """ESXI"""
+name := """VPN-Service"""
+organization := "io.hidenn"
 
-version := "1.0-SNAPSHOT"
+version := "2.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.11"
 
-libraryDependencies ++= Seq(
-  jdbc,
-  cache,
-  ws,
-  "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % Test
-)
+libraryDependencies += filters
+libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % Test
 
-// https://mvnrepository.com/artifact/org.jvnet.hudson/vijava
-libraryDependencies += "org.jvnet.hudson" % "vijava" % "2120100824"
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-access
+libraryDependencies += "ch.qos.logback" % "logback-access" % "1.2.3"
 
-// https://mvnrepository.com/artifact/dom4j/dom4j
-libraryDependencies += "dom4j" % "dom4j" % "1.6.1"
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3" % "test"
 
-// https://mvnrepository.com/artifact/junit/junit
-libraryDependencies += "junit" % "junit" % "4.8.2"
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+libraryDependencies += "ch.qos.logback" % "logback-core" % "1.2.3"
 
-// https://mvnrepository.com/artifact/log4j/log4j
-libraryDependencies += "log4j" % "log4j" % "1.2.16"
+// https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
+libraryDependencies += "net.logstash.logback" % "logstash-logback-encoder" % "4.10"

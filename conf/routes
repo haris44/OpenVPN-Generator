@@ -3,7 +3,8 @@
 # ~~~~
 
 # An example controller showing a sample home page
-POST     /                           controllers.HomeController.index
-GET      /test                       controllers.HomeController.test
-OPTIONS  /                           controllers.HomeController.options(path: String ?= "")
-OPTIONS  /*path                      controllers.HomeController.options(path)
+POST     /create                     controllers.HomeController.create
+POST     /login                      controllers.HomeController.login
+GET      /logout                     controllers.HomeController.logout
+GET      /user                       controllers.HomeController.user
+
